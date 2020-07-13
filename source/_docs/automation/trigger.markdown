@@ -363,7 +363,16 @@ curl -d "" https://your-home-assistant:8123/api/webhook/some_hook_id
 
 Webhook endpoints don't require authentication, other than knowing a valid webhook ID. You can send a data payload, either as encoded form data or JSON data. The payload is available in an automation template as either `trigger.json` or `trigger.data`. URL query parameters are available in the template as `trigger.query`. Remember to use an HTTPS URL if you've secured your Home Assistant installation with SSL/TLS. 
 
-Note that a given webhook can only be used in one automation at a time. That is, only one automation trigger can use a specific webhook ID.
+Note that a given webhook can only be used in one automation at a time. That is, only one automation trigger can use a specific webhook ID.  To workaround this limitation, a new event could be created that the single webhook fires: 
+
+```yaml
+automation:
+  trigger: 
+    platform: webhook
+    webhook_id: some_hook_id
+  action:
+    event: toggle_due_to_webhook
+ ```
 
 ### Zone trigger
 
